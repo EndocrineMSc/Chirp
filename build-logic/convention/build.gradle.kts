@@ -41,5 +41,9 @@ gradlePlugin {
             id = "com.endocrine.convention.android.application.compose"
             implementationClass = "AndroidApplicationComposeConventionPlugin"
         }
+        register("cmpApplication") {
+            id = "com.endocrine.convention.cmp.application"
+            implementationClass = "CmpApplicationConventionPlugin"
+        }
     }
 }
