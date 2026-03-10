@@ -45,5 +45,17 @@ gradlePlugin {
             id = "com.endocrine.convention.cmp.application"
             implementationClass = "CmpApplicationConventionPlugin"
         }
+        register("kmpLibrary") {
+            id = "com.endocrine.convention.kmp.library"
+            implementationClass = "KmpLibraryConventionPlugin"
+        }
+        register("cmpLibrary") {
+            id = "com.endocrine.convention.cmp.library"
+            implementationClass = "CmpLibraryConventionPlugin"
+        }
+        register("cmpFeature") {
+            id = "com.endocrine.convention.cmp.feature"
+            implementationClass = "CmpFeatureConventionPlugin"
+        }
     }
 }
