@@ -1,4 +1,4 @@
-package com.endocrine.core.domain
+package com.endocrine.core.domain.util
 
 /**
  * Represents the result of an operation that can either succeed with data of type [D]
@@ -19,11 +19,6 @@ sealed interface Result<out D, out E: Error> {
      */
     data class Failure<out E: Error>(val error: E): Result<Nothing, E>
 }
-
-/**
- * Marker interface for error types used in [Result].
- */
-interface Error
 
 /**
  * Maps the data of a [Result.Success] using the provided [map] function.

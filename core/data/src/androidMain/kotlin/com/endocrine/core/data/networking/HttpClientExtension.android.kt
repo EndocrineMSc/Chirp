@@ -1,6 +1,6 @@
 package com.endocrine.core.data.networking
 
-import com.endocrine.core.domain.Result
+import com.endocrine.core.domain.util.Result
 import com.endocrine.core.domain.util.DataError
 import io.ktor.client.plugins.HttpRequestTimeoutException
 import io.ktor.client.statement.HttpResponse

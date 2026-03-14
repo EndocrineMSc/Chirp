@@ -1,7 +1,5 @@
 package com.endocrine.core.domain.util
 
-import com.endocrine.core.domain.Error
-
 sealed interface DataError: Error {
     enum class Remote: DataError {
         BAD_REQUEST,
