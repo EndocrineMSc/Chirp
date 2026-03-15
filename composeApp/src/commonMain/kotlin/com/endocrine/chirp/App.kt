@@ -17,6 +17,8 @@ import org.jetbrains.compose.resources.painterResource
 
 import chirp.composeapp.generated.resources.Res
 import chirp.composeapp.generated.resources.compose_multiplatform
+import com.endocrine.core.designsystem.components.brand.ChirpBrandLogo
+import com.endocrine.core.designsystem.components.layouts.ChirpAdaptiveFormLayout
 import com.endocrine.core.designsystem.theme.ChirpTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -24,27 +26,22 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Preview
 fun App() {
     ChirpTheme {
-        var showContent by remember { mutableStateOf(false) }
-        Column(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.primaryContainer)
-                .safeContentPadding()
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            Button(onClick = { showContent = !showContent }) {
-                Text("Click me!")
-            }
-            AnimatedVisibility(showContent) {
-                val greeting = remember { Greeting().greet() }
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    Image(painterResource(Res.drawable.compose_multiplatform), null)
-                    Text("Compose: $greeting")
-                }
-            }
-        }
+        ChirpAdaptiveFormLayout(
+            headerText = "Welcome to Chirp",
+            errorText = "Login Failed",
+            logo = { ChirpBrandLogo() },
+            formContent = {
+                Text (
+                    text = "Sample form title",
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+                Text (
+                    text = "Sample form title 2",
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+            },
+        )
     }
 }
