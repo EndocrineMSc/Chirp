@@ -1,0 +1,12 @@
+package com.endocrine.core.domain.auth
+
+import com.endocrine.core.domain.util.DataError
+import com.endocrine.core.domain.util.EmptyResult
+
+interface AuthService {
+    suspend fun register(
+        email: String,
+        userName: String,
+        password: String
+    ): EmptyResult<DataError.Remote>
+}
