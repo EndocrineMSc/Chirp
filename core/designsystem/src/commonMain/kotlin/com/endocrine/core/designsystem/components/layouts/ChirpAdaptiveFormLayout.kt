@@ -42,8 +42,8 @@ fun ChirpAdaptiveFormLayout(
     headerText: String,
     errorText: String? = null,
     logo: @Composable () -> Unit,
-    formContent: @Composable ColumnScope.() -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    formContent: @Composable ColumnScope.() -> Unit
 ) {
     val configuration = currentDeviceConfiguration()
     val headerColor = if (configuration == MOBILE_LANDSCAPE) {
@@ -57,18 +57,14 @@ fun ChirpAdaptiveFormLayout(
             ChirpSurface(
                 modifier = modifier
                     .consumeWindowInsets(WindowInsets.navigationBars)
-                    .consumeWindowInsets(WindowInsets.displayCutout),
-                header = {
+                    .consumeWindowInsets(WindowInsets.displayCutout), header = {
                     Spacer(modifier = Modifier.height(32.dp))
                     logo()
                     Spacer(modifier = Modifier.height(32.dp))
-                }
-            ) {
+                }) {
                 Spacer(modifier = Modifier.height(24.dp))
                 AuthHeaderSection(
-                    headerText = headerText,
-                    headerColor = headerColor,
-                    errorText = errorText
+                    headerText = headerText, headerColor = headerColor, errorText = errorText
                 )
                 Spacer(modifier = Modifier.height(24.dp))
                 formContent()
@@ -81,10 +77,10 @@ fun ChirpAdaptiveFormLayout(
                 modifier = modifier
                     .fillMaxSize()
                     .consumeWindowInsets(WindowInsets.displayCutout)
+                    .consumeWindowInsets(WindowInsets.navigationBars)
             ) {
                 Column(
-                    modifier = Modifier
-                        .weight(1f),
+                    modifier = Modifier.weight(1f),
                     verticalArrangement = Arrangement.spacedBy(24.dp)
                 ) {
                     Spacer(modifier = Modifier.height(16.dp))
@@ -92,21 +88,21 @@ fun ChirpAdaptiveFormLayout(
                     AuthHeaderSection(
                         headerText = headerText,
                         headerColor = headerColor,
-                        errorText = errorText
+                        errorText = errorText,
+                        headerTextAlignment = TextAlign.Start
                     )
                 }
                 ChirpSurface(
-                    modifier = Modifier
-                        .weight(1f)
+                    modifier = Modifier.weight(1f)
                 ) {
+                    Spacer(modifier = Modifier.height(16.dp))
                     formContent()
+                    Spacer(modifier = Modifier.height(16.dp))
                 }
             }
         }
 
-        TABLET_PORTRAIT,
-        TABLET_LANDSCAPE,
-        DESKTOP -> {
+        TABLET_PORTRAIT, TABLET_LANDSCAPE, DESKTOP -> {
             Column(
                 modifier = modifier
                     .fillMaxSize()
@@ -123,13 +119,13 @@ fun ChirpAdaptiveFormLayout(
                         .clip(RoundedCornerShape(32.dp))
                         .background(MaterialTheme.colorScheme.surface)
                         .padding(horizontal = 24.dp, vertical = 32.dp),
-                    verticalArrangement = Arrangement.spacedBy(24.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     AuthHeaderSection(
                         headerText = headerText,
                         headerColor = headerColor,
-                        errorText = errorText
+                        errorText = errorText,
+                        headerTextAlignment = TextAlign.Start
                     )
                     formContent()
                 }
@@ -143,12 +139,13 @@ fun ColumnScope.AuthHeaderSection(
     headerText: String,
     headerColor: Color,
     errorText: String? = null,
+    headerTextAlignment: TextAlign = TextAlign.Center
 ) {
     Text(
         text = headerText,
         style = MaterialTheme.typography.titleLarge,
         color = headerColor,
-        textAlign = TextAlign.Center,
+        textAlign = headerTextAlignment,
         modifier = Modifier.fillMaxWidth()
     )
     AnimatedVisibility(
@@ -159,9 +156,8 @@ fun ColumnScope.AuthHeaderSection(
                 text = errorText,
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.error,
-                modifier = Modifier
-                    .fillMaxWidth(),
-                textAlign = TextAlign.Center
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = headerTextAlignment
             )
         }
     }
@@ -186,8 +182,7 @@ fun ChirpAdaptiveFormLayoutLightPreview() {
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onSurface
                 )
-            }
-        )
+            })
     }
 }
 
@@ -210,7 +205,6 @@ fun ChirpAdaptiveFormLayoutDarkPreview() {
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onSurface
                 )
-            }
-        )
+            })
     }
 }

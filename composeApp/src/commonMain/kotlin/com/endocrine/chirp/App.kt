@@ -17,6 +17,7 @@ import org.jetbrains.compose.resources.painterResource
 
 import chirp.composeapp.generated.resources.Res
 import chirp.composeapp.generated.resources.compose_multiplatform
+import com.endocrine.auth.presentation.register.RegisterRoot
 import com.endocrine.core.designsystem.components.brand.ChirpBrandLogo
 import com.endocrine.core.designsystem.components.layouts.ChirpAdaptiveFormLayout
 import com.endocrine.core.designsystem.theme.ChirpTheme
@@ -26,22 +27,6 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Preview
 fun App() {
     ChirpTheme {
-        ChirpAdaptiveFormLayout(
-            headerText = "Welcome to Chirp",
-            errorText = "Login Failed",
-            logo = { ChirpBrandLogo() },
-            formContent = {
-                Text (
-                    text = "Sample form title",
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-                Text (
-                    text = "Sample form title 2",
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-            },
-        )
+        RegisterRoot()
     }
 }
