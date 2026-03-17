@@ -1,0 +1,22 @@
+package com.endocrine.core.data.di
+
+import com.endocrine.core.data.auth.KtorAuthService
+import com.endocrine.core.data.logging.KermitLogger
+import com.endocrine.core.data.networking.HttpClientFactory
+import com.endocrine.core.domain.auth.AuthService
+import com.endocrine.core.domain.logging.ChirpLogger
+import org.koin.core.module.Module
+import org.koin.core.module.dsl.singleOf
+import org.koin.dsl.bind
+import org.koin.dsl.module
+
+expect val platformCoreDataModule: Module
+
+val coreDataModule = module {
+    includes(platformCoreDataModule)
+    single<ChirpLogger> { KermitLogger }
+    single {
+        HttpClientFactory(get()).create(get())
+    }
+    singleOf(::KtorAuthService) bind AuthService::class
+}
