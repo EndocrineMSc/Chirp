@@ -35,10 +35,11 @@ import com.endocrine.core.designsystem.theme.ChirpTheme
 import com.endocrine.core.designsystem.theme.extended
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun EmailVerificationRoot(
-    viewModel: EmailVerificationViewModel
+    viewModel: EmailVerificationViewModel = koinViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
@@ -51,8 +52,7 @@ fun EmailVerificationRoot(
 
 @Composable
 private fun EmailVerificationScreen(
-    state: EmailVerificationState,
-    onAction: (EmailVerificationAction) -> Unit
+    state: EmailVerificationState, onAction: (EmailVerificationAction) -> Unit
 ) {
     ChirpAdaptiveResultLayout {
         when {
@@ -71,8 +71,7 @@ private fun EmailVerificationScreen(
                             onClick = { onAction(EmailVerificationAction.OnLoginClick) },
                             modifier = Modifier.fillMaxWidth()
                         )
-                    }
-                )
+                    })
             }
 
             else -> {
@@ -91,8 +90,7 @@ private fun EmailVerificationScreen(
                             modifier = Modifier.fillMaxWidth(),
                             style = ChirpButtonStyle.SECONDARY
                         )
-                    }
-                )
+                    })
             }
         }
     }
@@ -104,7 +102,10 @@ private fun VerifyingContent(modifier: Modifier = Modifier) {
         modifier = modifier
             .heightIn(min = 200.dp)
             .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically),
+        verticalArrangement = Arrangement.spacedBy(
+            16.dp,
+            Alignment.CenterVertically
+        ),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         CircularProgressIndicator(
@@ -125,7 +126,7 @@ private fun EmailVerificationErrorPreview() {
     ChirpTheme {
         EmailVerificationScreen(
             state = EmailVerificationState(),
-            onAction = {}
+            onAction = {},
         )
     }
 }
@@ -138,7 +139,7 @@ private fun EmailVerificationVerifyingPreview() {
             state = EmailVerificationState(
                 isVerifying = true
             ),
-            onAction = {}
+            onAction = {},
         )
     }
 }
@@ -151,7 +152,7 @@ private fun EmailVerificationVerifiedPreview() {
             state = EmailVerificationState(
                 isVerified = true
             ),
-            onAction = {}
+            onAction = {},
         )
     }
 }
