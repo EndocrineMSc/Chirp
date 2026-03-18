@@ -17,7 +17,7 @@ import com.endocrine.core.designsystem.components.brand.ChirpSuccessIcon
 import com.endocrine.core.designsystem.components.buttons.ChirpButton
 import com.endocrine.core.designsystem.components.buttons.ChirpButtonStyle
 import com.endocrine.core.designsystem.components.layouts.ChirpAdaptiveResultLayout
-import com.endocrine.core.designsystem.components.layouts.ChirpSimpleSuccessLayout
+import com.endocrine.core.designsystem.components.layouts.ChirpSimpleResultLayout
 import com.endocrine.core.designsystem.components.layouts.ChirpSnackbarScaffold
 import com.endocrine.core.designsystem.theme.ChirpTheme
 import com.endocrine.core.presentation.util.ObserveAsEvents
@@ -59,7 +59,7 @@ private fun RegisterSuccessScreen(
         snackbarHostState = snackbarHostState
     ) {
         ChirpAdaptiveResultLayout {
-            ChirpSimpleSuccessLayout(
+            ChirpSimpleResultLayout(
                 title = stringResource(Res.string.account_successfully_created),
                 description = stringResource(
                     Res.string.email_verification_sent_to_x, state.registeredEmail
