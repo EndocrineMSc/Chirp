@@ -19,6 +19,7 @@ import chirp.composeapp.generated.resources.Res
 import chirp.composeapp.generated.resources.compose_multiplatform
 import com.endocrine.auth.presentation.register.RegisterRoot
 import com.endocrine.auth.presentation.register_success.RegisterSuccessRoot
+import com.endocrine.chirp.navigation.NavigationRoot
 import com.endocrine.core.designsystem.components.brand.ChirpBrandLogo
 import com.endocrine.core.designsystem.components.layouts.ChirpAdaptiveFormLayout
 import com.endocrine.core.designsystem.theme.ChirpTheme
@@ -28,6 +29,6 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Preview
 fun App() {
     ChirpTheme {
-        RegisterSuccessRoot()
+        NavigationRoot()
     }
 }

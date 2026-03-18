@@ -36,6 +36,8 @@ kotlin {
             implementation(projects.feature.chat.database)
             implementation(projects.feature.chat.domain)
             implementation(projects.feature.chat.presentation)
+
+            implementation(libs.jetbrains.compose.navigation)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
