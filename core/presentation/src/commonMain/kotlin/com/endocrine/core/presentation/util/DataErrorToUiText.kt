@@ -17,6 +17,14 @@ import chirp.core.presentation.generated.resources.error_unauthorized
 import chirp.core.presentation.generated.resources.error_unknown
 import com.endocrine.core.domain.util.DataError
 
+/**
+ * Converts a [DataError] into a [UiText] object.
+ *
+ * This mapping ensures that domain-specific errors are translated into
+ * user-friendly, localized strings that can be displayed in the UI.
+ *
+ * @return A [UiText.Resource] containing the string resource corresponding to the error.
+ */
 fun DataError.toUiText(): UiText {
     val resource = when(this) {
         DataError.Local.DISK_FULL -> Res.string.error_disk_full

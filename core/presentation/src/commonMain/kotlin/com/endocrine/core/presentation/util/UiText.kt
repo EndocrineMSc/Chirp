@@ -13,6 +13,12 @@ import org.jetbrains.compose.resources.stringResource
  */
 sealed interface UiText {
     data class DynamicString(val value: String): UiText
+    /**
+     * Represents a string resource with optional arguments.
+     *
+     * @property id The [StringResource] to be used.
+     * @property args Optional arguments to be passed to the string resource for formatting.
+     */
     class Resource(
         val id: StringResource,
         val args: Array<Any> = arrayOf()
