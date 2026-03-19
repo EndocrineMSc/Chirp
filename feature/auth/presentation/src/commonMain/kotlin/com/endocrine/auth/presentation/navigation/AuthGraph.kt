@@ -6,6 +6,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navDeepLink
 import androidx.navigation.navigation
 import com.endocrine.auth.presentation.email_verification.EmailVerificationRoot
+import com.endocrine.auth.presentation.login.LoginRoot
 import com.endocrine.auth.presentation.register.RegisterRoot
 import com.endocrine.auth.presentation.register_success.RegisterSuccessRoot
 
@@ -14,13 +15,38 @@ fun NavGraphBuilder.authGraph(
     onLoginSuccess: () -> Unit,
 ) {
     navigation<AuthGraphRoutes.Graph>(
-        startDestination = AuthGraphRoutes.Register
+        startDestination = AuthGraphRoutes.Login
     ) {
+        composable<AuthGraphRoutes.Login> {
+            LoginRoot(
+                onLoginSuccess = { onLoginSuccess }, // Transition to other module, so bubble up
+                onForgotPasswordClick = {
+                    navController.navigate(AuthGraphRoutes.ForgotPassword)
+                },
+                onCreateAccountClick = {
+                    navController.navigate(AuthGraphRoutes.Register) {
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                },
+            )
+        }
         composable<AuthGraphRoutes.Register> {
             RegisterRoot(
                 onRegisterSuccess = {
                     navController.navigate(AuthGraphRoutes.RegisterSuccess(it))
-                })
+                },
+                onLoginClick = {
+                    navController.navigate(AuthGraphRoutes.Login) {
+                        popUpTo(AuthGraphRoutes.Register) {
+                            inclusive = true
+                            saveState = true
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                },
+            )
         }
         composable<AuthGraphRoutes.RegisterSuccess> {
             RegisterSuccessRoot()
