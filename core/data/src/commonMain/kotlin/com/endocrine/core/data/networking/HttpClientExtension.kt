@@ -101,7 +101,7 @@ suspend inline fun <reified Request, reified Response : Any> HttpClient.put(
  * @param queryParams A map of key-value pairs to be appended to the URL.
  * @param builder A configuration block for the [HttpRequestBuilder], allowing custom headers or settings.
  */
-suspend inline fun <reified Request, reified Response : Any> HttpClient.delete(
+suspend inline fun <reified Response : Any> HttpClient.delete(
     route: String,
     queryParams: Map<String, Any> = mapOf(),
     crossinline builder: HttpRequestBuilder.() -> Unit = {}
