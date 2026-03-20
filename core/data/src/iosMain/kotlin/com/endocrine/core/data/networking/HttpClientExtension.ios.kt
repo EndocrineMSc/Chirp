@@ -38,7 +38,7 @@ actual suspend fun <T> platformSafeCall(
         val response = execute()
         handleResponse(response)
     } catch (e: DarwinHttpRequestException) {
-        handleDarwinException(e)
+        return handleDarwinException(e)
     } catch (e: UnresolvedAddressException) {
         Result.Failure(DataError.Remote.NO_INTERNET)
     } catch (e: SocketTimeoutException) {

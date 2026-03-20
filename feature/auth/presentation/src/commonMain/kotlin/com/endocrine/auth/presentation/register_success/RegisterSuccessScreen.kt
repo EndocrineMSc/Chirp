@@ -29,7 +29,8 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun RegisterSuccessRoot(
-    viewModel: RegisterSuccessViewModel = koinViewModel()
+    viewModel: RegisterSuccessViewModel = koinViewModel(),
+    onLoginClick: () -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
@@ -41,11 +42,18 @@ fun RegisterSuccessRoot(
                 message = getString(Res.string.resent_verification_email)
             )
         }
-
     }
 
     RegisterSuccessScreen(
-        state = state, onAction = viewModel::onAction, snackbarHostState = snackbarHostState
+        state = state,
+        snackbarHostState = snackbarHostState,
+        onAction = { action ->
+            when(action) {
+                RegisterSuccessAction.OnLoginClick -> onLoginClick()
+                else -> Unit
+            }
+            viewModel.onAction(action)
+        }
     )
 }
 
@@ -62,14 +70,17 @@ private fun RegisterSuccessScreen(
             ChirpSimpleResultLayout(
                 title = stringResource(Res.string.account_successfully_created),
                 description = stringResource(
-                    Res.string.email_verification_sent_to_x, state.registeredEmail
+                    Res.string.email_verification_sent_to_x,
+                    state.registeredEmail
                 ),
                 icon = { ChirpSuccessIcon() },
                 primaryButton = {
                     ChirpButton(
-                        text = stringResource(Res.string.login), onClick = {
+                        text = stringResource(Res.string.login),
+                        onClick = {
                             onAction(RegisterSuccessAction.OnLoginClick)
-                        }, modifier = Modifier.fillMaxWidth()
+                        },
+                        modifier = Modifier.fillMaxWidth()
                     )
                 },
                 secondaryButton = {

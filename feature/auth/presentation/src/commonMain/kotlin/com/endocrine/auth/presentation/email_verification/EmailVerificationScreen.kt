@@ -39,20 +39,29 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun EmailVerificationRoot(
-    viewModel: EmailVerificationViewModel = koinViewModel()
+    viewModel: EmailVerificationViewModel = koinViewModel(),
+    onLoginClick: () -> Unit,
+    onCloseClick: () -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     EmailVerificationScreen(
         state = state,
-        onAction = viewModel::onAction
+        onAction = { action ->
+            when(action) {
+                EmailVerificationAction.OnLoginClick -> onLoginClick()
+                EmailVerificationAction.OnCloseClick -> onCloseClick()
+            }
+            viewModel.onAction(action)
+        }
     )
 }
 
 
 @Composable
 private fun EmailVerificationScreen(
-    state: EmailVerificationState, onAction: (EmailVerificationAction) -> Unit
+    state: EmailVerificationState,
+    onAction: (EmailVerificationAction) -> Unit
 ) {
     ChirpAdaptiveResultLayout {
         when {

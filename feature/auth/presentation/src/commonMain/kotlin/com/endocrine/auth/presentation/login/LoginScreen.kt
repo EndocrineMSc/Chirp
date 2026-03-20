@@ -29,6 +29,7 @@ import com.endocrine.core.designsystem.components.layouts.ChirpAdaptiveFormLayou
 import com.endocrine.core.designsystem.components.textfields.ChirpPasswordTextField
 import com.endocrine.core.designsystem.components.textfields.ChirpTextField
 import com.endocrine.core.designsystem.theme.ChirpTheme
+import com.endocrine.core.presentation.util.ObserveAsEvents
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
@@ -42,10 +43,16 @@ fun LoginRoot(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
+    ObserveAsEvents(viewModel.events) { event ->
+        when (event) {
+            LoginEvent.Success -> onLoginSuccess()
+        }
+    }
+
     LoginScreen(
         state = state,
         onAction = { action ->
-            when(action) {
+            when (action) {
                 LoginAction.OnForgotPasswordClick -> onForgotPasswordClick()
                 LoginAction.OnSignUpClick -> onCreateAccountClick()
                 else -> Unit
