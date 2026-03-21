@@ -1,6 +1,7 @@
 package com.endocrine.chirp.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -11,10 +12,13 @@ import com.endocrine.chat.presentation.chat_list.ChatListScreeRoot
 import kotlinx.serialization.Serializable
 
 @Composable
-fun NavigationRoot(navController: NavHostController) {
+fun NavigationRoot(
+    navController: NavHostController,
+    startDestination: Any
+) {
     NavHost(
         navController = navController,
-        startDestination = AuthGraphRoutes.Graph
+        startDestination = startDestination
     ) {
         authGraph(
             navController = navController,
