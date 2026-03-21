@@ -8,6 +8,7 @@ import chirp.feature.auth.presentation.generated.resources.error_email_not_verif
 import chirp.feature.auth.presentation.generated.resources.error_invalid_credentials
 import com.endocrine.auth.domain.EmailValidator
 import com.endocrine.core.domain.auth.AuthService
+import com.endocrine.core.domain.auth.SessionStorage
 import com.endocrine.core.domain.util.DataError
 import com.endocrine.core.domain.util.onFailure
 import com.endocrine.core.domain.util.onSuccess
@@ -27,7 +28,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class LoginViewModel(
-    private val authService: AuthService
+    private val authService: AuthService,
+    private val sessionStorage: SessionStorage
 ) : ViewModel() {
 
     private var hasLoadedInitialData = false
@@ -111,6 +113,8 @@ class LoginViewModel(
                     password = password
                 )
                 .onSuccess { authInfo ->
+                    sessionStorage.set(authInfo)
+
                     _state.update {
                         it.copy(
                             isLoggingIn = false

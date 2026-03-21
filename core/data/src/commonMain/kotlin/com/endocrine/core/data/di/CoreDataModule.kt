@@ -1,9 +1,11 @@
 package com.endocrine.core.data.di
 
+import com.endocrine.core.data.auth.DataStoreSessionStorage
 import com.endocrine.core.data.auth.KtorAuthService
 import com.endocrine.core.data.logging.KermitLogger
 import com.endocrine.core.data.networking.HttpClientFactory
 import com.endocrine.core.domain.auth.AuthService
+import com.endocrine.core.domain.auth.SessionStorage
 import com.endocrine.core.domain.logging.ChirpLogger
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf
@@ -19,4 +21,5 @@ val coreDataModule = module {
         HttpClientFactory(get()).create(get())
     }
     singleOf(::KtorAuthService) bind AuthService::class
+    singleOf(::DataStoreSessionStorage) bind SessionStorage::class
 }
