@@ -1,6 +1,7 @@
 package com.endocrine.chirp.di
 
 import com.endocrine.auth.presentation.di.authPresentationModule
+import com.endocrine.chat.presentation.di.chatPresentationModule
 import com.endocrine.core.data.di.coreDataModule
 import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
@@ -12,6 +13,7 @@ fun initKoin(config: KoinAppDeclaration? = null) {
             appModule,
             coreDataModule,
             authPresentationModule,
+            chatPresentationModule
         )
     }
 }
