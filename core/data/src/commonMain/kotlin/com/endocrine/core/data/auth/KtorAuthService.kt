@@ -3,6 +3,7 @@ package com.endocrine.core.data.auth
 import com.endocrine.core.data.dto.requests.EmailRequest
 import com.endocrine.core.data.dto.requests.LoginRequest
 import com.endocrine.core.data.dto.requests.RegisterRequest
+import com.endocrine.core.data.dto.requests.ResetPasswordRequest
 import com.endocrine.core.data.dto.serializables.AuthInfoSerializable
 import com.endocrine.core.data.mappers.toDomain
 import com.endocrine.core.data.networking.get
@@ -69,6 +70,19 @@ class KtorAuthService(
         return httpClient.post<EmailRequest, Unit>(
             route = "/auth/forgot-password",
             body = EmailRequest(email)
+        )
+    }
+
+    override suspend fun resetPassword(
+        newPassword: String,
+        token: String
+    ): EmptyResult<DataError.Remote> {
+        return httpClient.post<ResetPasswordRequest, Unit>(
+            route = "/auth/reset-password",
+            body = ResetPasswordRequest(
+                newPassword = newPassword,
+                token = token
+            )
         )
     }
 }

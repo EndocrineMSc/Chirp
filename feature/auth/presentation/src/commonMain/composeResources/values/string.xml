@@ -3,6 +3,8 @@
     <!-- Auth -->
     <string name="welcome_to_chirp">Welcome to Chirp!</string>
     <string name="account_successfully_created">Chirp account successfully created!</string>
+    <string name="forgot_password_email_sent_successfully">We've successfully emailed you with a link to reset your password</string>
+    <string name="reset_password_successfull">Your password has successfully been changed. You can now log in with your new password</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="email">Email</string>
@@ -10,7 +12,8 @@
     <string name="login">Log In</string>
     <string name="close">Close</string>
     <string name="submit">Submit</string>
-    <string name="forgot_password_email_sent_successfully">We've successfully emailed you with a link to reset your password</string>
+    <string name="set_new_password">Set a new password?</string>
+    <string name="new_password">New password?</string>
 
     <!-- Email Verification -->
     <string name="email_verification_sent_to_x">We've sent a verification email to %1$s</string>
@@ -40,4 +43,6 @@
     <string name="error_invalid_password">Password must be at least 9 characters and include one digit and one uppercase letter</string>
     <string name="error_invalid_credentials">The email or password is incorrect</string>
     <string name="error_email_not_verified">Unable to login because your email isn't verified</string>
+    <string name="error_reset_password_token_invalid">It seems like the reset password link is not valid or has expired. Please request a new email.</string>
+    <string name="error_same_password">The error cannot be the same password as the old one</string>
 </resources>
