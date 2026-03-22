@@ -34,6 +34,7 @@ import com.endocrine.core.presentation.util.DeviceConfiguration.MOBILE_LANDSCAPE
 import com.endocrine.core.presentation.util.DeviceConfiguration.MOBILE_PORTRAIT
 import com.endocrine.core.presentation.util.DeviceConfiguration.TABLET_LANDSCAPE
 import com.endocrine.core.presentation.util.DeviceConfiguration.TABLET_PORTRAIT
+import com.endocrine.core.presentation.util.clearFocusOnTap
 import com.endocrine.core.presentation.util.currentDeviceConfiguration
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -57,14 +58,18 @@ fun ChirpAdaptiveFormLayout(
             ChirpSurface(
                 modifier = modifier
                     .consumeWindowInsets(WindowInsets.navigationBars)
-                    .consumeWindowInsets(WindowInsets.displayCutout), header = {
+                    .consumeWindowInsets(WindowInsets.displayCutout)
+                    .clearFocusOnTap(),
+                header = {
                     Spacer(modifier = Modifier.height(32.dp))
                     logo()
                     Spacer(modifier = Modifier.height(32.dp))
                 }) {
                 Spacer(modifier = Modifier.height(24.dp))
                 AuthHeaderSection(
-                    headerText = headerText, headerColor = headerColor, errorText = errorText
+                    headerText = headerText,
+                    headerColor = headerColor,
+                    errorText = errorText
                 )
                 Spacer(modifier = Modifier.height(24.dp))
                 formContent()
@@ -118,7 +123,10 @@ fun ChirpAdaptiveFormLayout(
                         .fillMaxWidth()
                         .clip(RoundedCornerShape(32.dp))
                         .background(MaterialTheme.colorScheme.surface)
-                        .padding(horizontal = 24.dp, vertical = 32.dp),
+                        .padding(
+                            horizontal = 24.dp,
+                            vertical = 32.dp
+                        ),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     AuthHeaderSection(
