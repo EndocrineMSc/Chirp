@@ -6,6 +6,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navDeepLink
 import androidx.navigation.navigation
 import com.endocrine.auth.presentation.email_verification.EmailVerificationRoot
+import com.endocrine.auth.presentation.forgot_password.ForgotPasswordRoot
 import com.endocrine.auth.presentation.login.LoginRoot
 import com.endocrine.auth.presentation.register.RegisterRoot
 import com.endocrine.auth.presentation.register_success.RegisterSuccessRoot
@@ -19,7 +20,7 @@ fun NavGraphBuilder.authGraph(
     ) {
         composable<AuthGraphRoutes.Login> {
             LoginRoot(
-                onLoginSuccess = { onLoginSuccess }, // Transition to other module, so bubble up
+                onLoginSuccess = { onLoginSuccess() }, // Transition to other module, so bubble up
                 onForgotPasswordClick = {
                     navController.navigate(AuthGraphRoutes.ForgotPassword)
                 },
@@ -85,6 +86,9 @@ fun NavGraphBuilder.authGraph(
                     }
                 }
             )
+        }
+        composable<AuthGraphRoutes.ForgotPassword>() {
+            ForgotPasswordRoot()
         }
     }
 }
