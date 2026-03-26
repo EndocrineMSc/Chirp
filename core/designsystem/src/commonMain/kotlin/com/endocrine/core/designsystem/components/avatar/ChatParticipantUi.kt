@@ -1,6 +1,6 @@
 package com.endocrine.core.designsystem.components.avatar
 
-data class AvatarUi(
+data class ChatParticipantUi(
     val id: String,
     val userName: String,
     val initials: String,

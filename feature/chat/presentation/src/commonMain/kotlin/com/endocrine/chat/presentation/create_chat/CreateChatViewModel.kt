@@ -27,7 +27,7 @@ class CreateChatViewModel : ViewModel() {
 
     fun onAction(action: CreateChatAction) {
         when (action) {
-            else -> TODO("Handle actions")
+            else -> Unit
         }
     }
 
