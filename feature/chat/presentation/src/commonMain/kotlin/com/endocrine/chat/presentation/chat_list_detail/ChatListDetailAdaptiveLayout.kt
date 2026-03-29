@@ -28,7 +28,8 @@ import com.endocrine.core.presentation.util.DialogSheetScopedViewModel
 import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
 
-@OptIn(ExperimentalMaterial3AdaptiveApi::class,
+@OptIn(
+    ExperimentalMaterial3AdaptiveApi::class,
     ExperimentalComposeUiApi::class
 )
 @Composable
@@ -62,7 +63,11 @@ fun ChatListDetailAdaptiveLayout(
                             text = "Chat $chatIndex",
                             modifier = Modifier
                                 .clickable {
-                                    chatListDetailViewModel.onAction(ChatListDetailAction.OnChatClick(chatIndex.toString()))
+                                    chatListDetailViewModel.onAction(
+                                        ChatListDetailAction.OnChatClick(
+                                            chatIndex.toString()
+                                        )
+                                    )
                                     scope.launch {
                                         scaffoldNavigator.navigateTo(ListDetailPaneScaffoldRole.Detail)
                                     }
@@ -88,6 +93,10 @@ fun ChatListDetailAdaptiveLayout(
     DialogSheetScopedViewModel(
         visible = sharedState.dialogState is DialogState.CreateChat
     ) {
-        CreateChatRoot()
+        CreateChatRoot(
+            onDismiss = {
+                chatListDetailViewModel.onAction(ChatListDetailAction.OnDismissCurrentDialogClick)
+            }
+        )
     }
 }
