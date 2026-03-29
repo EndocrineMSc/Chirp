@@ -10,7 +10,7 @@ import com.endocrine.core.designsystem.theme.ChirpTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun ChirpStackedAvatar(
+fun ChirpStackedAvatars(
     avatars: List<ChatParticipantUi>,
     modifier: Modifier = Modifier,
     size: AvatarSize = AvatarSize.SMALL,
@@ -49,7 +49,7 @@ fun ChirpStackedAvatar(
 @Preview
 fun ChirpStackedAvatarPreview() {
     ChirpTheme {
-        ChirpStackedAvatar(
+        ChirpStackedAvatars(
             avatars = listOf(
                 ChatParticipantUi(
                     id = "1",
