@@ -21,6 +21,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import chirp.feature.chat.presentation.generated.resources.Res
 import chirp.feature.chat.presentation.generated.resources.cancel
 import chirp.feature.chat.presentation.generated.resources.create_chat
+import com.endocrine.chat.domain.models.Chat
 import com.endocrine.chat.presentation.components.ChatParticipantSearchTextSection
 import com.endocrine.chat.presentation.components.ChatParticipantsSelectionSection
 import com.endocrine.chat.presentation.components.ManageChatButtonSection
@@ -32,6 +33,7 @@ import com.endocrine.core.designsystem.components.dialogs.ChirpAdaptiveDialogShe
 import com.endocrine.core.designsystem.theme.ChirpTheme
 import com.endocrine.core.presentation.util.DeviceConfiguration.DESKTOP
 import com.endocrine.core.presentation.util.DeviceConfiguration.MOBILE_LANDSCAPE
+import com.endocrine.core.presentation.util.ObserveAsEvents
 import com.endocrine.core.presentation.util.clearFocusOnTap
 import com.endocrine.core.presentation.util.currentDeviceConfiguration
 import org.jetbrains.compose.resources.stringResource
@@ -41,9 +43,16 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun CreateChatRoot(
     onDismiss: () -> Unit,
+    onChatCreated: (Chat) -> Unit,
     viewModel: CreateChatViewModel = koinViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+
+    ObserveAsEvents(viewModel.events) { event ->
+        when(event) {
+            is CreateChatEvent.OnChatCreated -> onChatCreated(event.chat)
+        }
+    }
 
     ChirpAdaptiveDialogSheetLayout(
         onDismiss = onDismiss
@@ -122,13 +131,16 @@ fun CreateChatScreen(
                             onAction(CreateChatAction.OnCreateChatClick)
                         }, isLoading = state.isCreatingChat
                     )
-                }, secondaryButton = {
+                },
+                secondaryButton = {
                     ChirpButton(
                         text = stringResource(Res.string.cancel), onClick = {
                             onAction(CreateChatAction.OnDismissDialog)
                         }, style = ChirpButtonStyle.SECONDARY
                     )
-                }, modifier = Modifier.fillMaxWidth()
+                },
+                modifier = Modifier.fillMaxWidth(),
+                error = state.createChatError?.asString()
             )
         }
     }
