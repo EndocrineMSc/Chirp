@@ -26,7 +26,6 @@ import chirp.feature.chat.presentation.generated.resources.Res
 import chirp.feature.chat.presentation.generated.resources.logout
 import chirp.feature.chat.presentation.generated.resources.profile_settings
 import com.endocrine.chat.presentation.components.ChatHeader
-import com.endocrine.chat.presentation.mappers.toUi
 import com.endocrine.core.designsystem.components.avatar.ChatParticipantUi
 import com.endocrine.core.designsystem.components.avatar.ChirpAvatarPhoto
 import com.endocrine.core.designsystem.components.brand.ChirpHorizontalDivider
@@ -39,7 +38,7 @@ import chirp.core.designsystem.generated.resources.Res as DesRes
 
 @Composable
 fun ChatListHeader(
-    localParticipant: ChatParticipantUi,
+    localParticipant: ChatParticipantUi?,
     isUserMenuOpen: Boolean,
     onUserAvatarClick: () -> Unit,
     onDismissMenu: () -> Unit,
@@ -80,7 +79,7 @@ fun ChatListHeader(
 
 @Composable
 private fun ProfileAvatarSection(
-    localParticipant: ChatParticipantUi,
+    localParticipant: ChatParticipantUi?,
     isMenuOpen: Boolean,
     onClick: () -> Unit,
     onDismissMenu: () -> Unit,
@@ -91,11 +90,13 @@ private fun ProfileAvatarSection(
     Box(
         modifier = modifier
     ) {
-        ChirpAvatarPhoto(
-            displayText = localParticipant.initials,
-            imageUrl = localParticipant.imageUrl,
-            onClick = onClick
-        )
+        localParticipant?.let {
+            ChirpAvatarPhoto(
+                displayText = localParticipant.initials,
+                imageUrl = localParticipant.imageUrl,
+                onClick = onClick
+            )
+        }
 
         DropdownMenu(
             expanded = isMenuOpen,
