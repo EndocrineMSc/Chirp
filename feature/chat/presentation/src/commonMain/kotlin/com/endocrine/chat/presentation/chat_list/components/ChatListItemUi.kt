@@ -28,6 +28,7 @@ import chirp.feature.chat.presentation.generated.resources.Res
 import chirp.feature.chat.presentation.generated.resources.group_chat
 import chirp.feature.chat.presentation.generated.resources.you
 import com.endocrine.chat.domain.models.ChatMessage
+import com.endocrine.chat.presentation.components.ChatItemHeaderRow
 import com.endocrine.chat.presentation.model.ChatUi
 import com.endocrine.core.designsystem.components.avatar.ChatParticipantUi
 import com.endocrine.core.designsystem.components.avatar.ChirpStackedAvatars
@@ -44,7 +45,6 @@ fun ChatListItemUi(
     isSelected: Boolean,
     modifier: Modifier = Modifier
 ) {
-    val isGroupChat = chat.otherParticipants.size > 1
     Row(
         modifier = modifier
             .height(IntrinsicSize.Min)
@@ -62,46 +62,10 @@ fun ChatListItemUi(
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                ChirpStackedAvatars(
-                    avatars = chat.otherParticipants
-                )
-                Column(
-                    modifier = Modifier.weight(1f),
-                    verticalArrangement = Arrangement.spacedBy(6.dp)
-                ) {
-                    Text(
-                        text = if (isGroupChat) {
-                            stringResource(Res.string.group_chat)
-                        } else {
-                            chat.otherParticipants.first().userName
-                        },
-                        modifier = Modifier.fillMaxWidth(),
-                        style = MaterialTheme.typography.titleXSmall,
-                        color = MaterialTheme.colorScheme.extended.textPrimary,
-                        overflow = TextOverflow.Ellipsis,
-                        maxLines = 1,
-                    )
-                    if (isGroupChat) {
-                        val you = stringResource(Res.string.you)
-                        val formattedUsernames = remember(chat.otherParticipants) {
-                            "$you, " + chat.otherParticipants.joinToString { it.userName }
-                        }
-                        Text(
-                            text = formattedUsernames,
-                            modifier = Modifier.fillMaxWidth(),
-                            color = MaterialTheme.colorScheme.extended.textPlaceholder,
-                            style = MaterialTheme.typography.bodySmall,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
-                        )
-                    }
-                }
-            }
+            ChatItemHeaderRow(
+                chat = chat,
+                modifier = Modifier.fillMaxWidth()
+            )
 
             chat.lastMessage?.let {
                 val previewMessage = buildAnnotatedString {

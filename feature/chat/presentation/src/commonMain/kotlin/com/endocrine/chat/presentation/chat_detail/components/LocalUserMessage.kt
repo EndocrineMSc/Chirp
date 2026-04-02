@@ -1,21 +1,17 @@
 package com.endocrine.chat.presentation.chat_detail.components
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import chirp.feature.chat.presentation.generated.resources.Res
 import chirp.feature.chat.presentation.generated.resources.delete_for_everyone
@@ -26,6 +22,8 @@ import com.endocrine.chat.domain.models.ChatMessageDeliveryStatus
 import com.endocrine.chat.presentation.model.MessageUi
 import com.endocrine.core.designsystem.components.chat.ChirpChatBubble
 import com.endocrine.core.designsystem.components.chat.TrianglePosition
+import com.endocrine.core.designsystem.components.dropdown.ChirpDropDownMenu
+import com.endocrine.core.designsystem.components.dropdown.DropDownItem
 import com.endocrine.core.designsystem.theme.extended
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
@@ -60,30 +58,18 @@ internal fun LocalUserMessage(
                 }
             )
 
-            DropdownMenu(
-                expanded = message.isMenuOpen,
-                onDismissRequest = onDismissMessageMenu,
-                containerColor = MaterialTheme.colorScheme.surface,
-                shape = RoundedCornerShape(8.dp),
-                border = BorderStroke(
-                    width = 1.dp,
-                    color = MaterialTheme.colorScheme.extended.surfaceOutline,
-                )
-            ) {
-                DropdownMenuItem(
-                    text = {
-                        Text(
-                            text = stringResource(Res.string.delete_for_everyone),
-                            color = MaterialTheme.colorScheme.extended.destructiveHover,
-                            fontWeight = FontWeight.Medium
-                        )
-                    },
-                    onClick = {
-                        onDismissMessageMenu()
-                        onDeleteClick()
-                    }
-                )
-            }
+            ChirpDropDownMenu(
+                isOpen = message.isMenuOpen,
+                items = listOf(
+                    DropDownItem(
+                        title = stringResource(Res.string.delete_for_everyone),
+                        icon = Icons.Default.Delete,
+                        contentColor = MaterialTheme.colorScheme.extended.destructiveHover,
+                        onClick = onDeleteClick
+                    )
+                ),
+                onDismiss = onDismissMessageMenu,
+            )
         }
 
         if (message.deliveryStatus == ChatMessageDeliveryStatus.FAILED) {
