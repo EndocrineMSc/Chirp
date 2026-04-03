@@ -13,6 +13,7 @@ import org.jetbrains.compose.resources.stringResource
  */
 sealed interface UiText {
     data class DynamicString(val value: String): UiText
+
     /**
      * Represents a string resource with optional arguments.
      *
