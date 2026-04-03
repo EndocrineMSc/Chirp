@@ -25,12 +25,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import chirp.feature.chat.presentation.generated.resources.Res
 import chirp.feature.chat.presentation.generated.resources.cancel
 import chirp.feature.chat.presentation.generated.resources.create_chat
-import chirp.feature.chat.presentation.generated.resources.do_you_want_to_log_out
-import chirp.feature.chat.presentation.generated.resources.do_you_want_to_log_out_desc
+import chirp.feature.chat.presentation.generated.resources.do_you_want_to_logout
+import chirp.feature.chat.presentation.generated.resources.do_you_want_to_logout_desc
 import chirp.feature.chat.presentation.generated.resources.logout
 import com.endocrine.chat.presentation.chat_list.components.ChatListHeader
 import com.endocrine.chat.presentation.chat_list.components.ChatListItemUi
@@ -60,7 +59,7 @@ fun ChatListRoot(
     ChatListScreen(
         state = state,
         onAction = { action ->
-            when(action) {
+            when (action) {
                 is ChatListAction.OnChatClick -> onChatClick(action.chat)
                 ChatListAction.OnConfirmLogout -> onConfirmLogoutClick()
                 ChatListAction.OnCreateChatClick -> onCreateChatClick()
@@ -161,8 +160,8 @@ fun ChatListScreen(
 
     if (state.showLogoutConfirmation) {
         DestructiveConfirmationDialog(
-            title = stringResource(Res.string.do_you_want_to_log_out),
-            description = stringResource(Res.string.do_you_want_to_log_out_desc),
+            title = stringResource(Res.string.do_you_want_to_logout),
+            description = stringResource(Res.string.do_you_want_to_logout_desc),
             confirmButtonText = stringResource(Res.string.logout),
             cancelButtonText = stringResource(Res.string.cancel),
             onConfirmClick = { onAction(ChatListAction.OnConfirmLogout) },

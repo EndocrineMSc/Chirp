@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import chirp.feature.chat.presentation.generated.resources.Res
-import chirp.feature.chat.presentation.generated.resources.add_chat
+import chirp.feature.chat.presentation.generated.resources.create_chat
 import chirp.feature.chat.presentation.generated.resources.email_or_username
 import com.endocrine.core.designsystem.components.buttons.ChirpButton
 import com.endocrine.core.designsystem.components.buttons.ChirpButtonStyle
@@ -48,7 +48,7 @@ fun ChatParticipantSearchTextSection(
             onFocusChanged = onFocusChanged
         )
         ChirpButton(
-            text = stringResource(Res.string.add_chat),
+            text = stringResource(Res.string.create_chat),
             onClick = onAddClick,
             style = ChirpButtonStyle.SECONDARY,
             enabled = isSearchEnabled,
