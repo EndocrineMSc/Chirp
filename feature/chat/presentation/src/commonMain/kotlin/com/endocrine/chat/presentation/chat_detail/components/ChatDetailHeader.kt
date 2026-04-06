@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
@@ -27,7 +28,6 @@ import chirp.feature.chat.presentation.generated.resources.users_icon
 import com.endocrine.chat.domain.models.ChatMessage
 import com.endocrine.chat.presentation.components.ChatHeader
 import com.endocrine.chat.presentation.components.ChatItemHeaderRow
-import chirp.core.designsystem.generated.resources.Res as DesRes
 import com.endocrine.chat.presentation.model.ChatUi
 import com.endocrine.core.designsystem.components.avatar.ChatParticipantUi
 import com.endocrine.core.designsystem.components.buttons.ChirpIconButton
@@ -39,20 +39,20 @@ import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import kotlin.time.Clock
+import chirp.core.designsystem.generated.resources.Res as DesRes
 
 @Composable
 fun ChatDetailHeader(
-    chatUi: ChatUi,
+    chatUi: ChatUi?,
     isDetailPresent: Boolean,
     isChatOptionsDropDownOpen: Boolean,
     onChatOptionsClick: () -> Unit,
-    onDismissChatOptions: ()  -> Unit,
+    onDismissChatOptions: () -> Unit,
     onManageChatClick: () -> Unit,
     onLeaveChatClick: () -> Unit,
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val isGroupChat = chatUi.otherParticipants.size > 1
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -62,7 +62,7 @@ fun ChatDetailHeader(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        if(!isDetailPresent) {
+        if (!isDetailPresent) {
             ChirpIconButton(
                 onClick = onBackClick
             ) {
@@ -75,14 +75,18 @@ fun ChatDetailHeader(
             }
         }
 
-        ChatItemHeaderRow(
-            chat = chatUi,
-            modifier = Modifier
-                .weight(1f)
-                .clickable {
-                    onManageChatClick()
-                }
-        )
+        if (chatUi != null) {
+            ChatItemHeaderRow(
+                chat = chatUi,
+                modifier = Modifier
+                    .weight(1f)
+                    .clickable {
+                        onManageChatClick()
+                    }
+            )
+        } else {
+            Spacer(modifier = Modifier.weight(1f))
+        }
 
         Box {
             ChirpIconButton(
