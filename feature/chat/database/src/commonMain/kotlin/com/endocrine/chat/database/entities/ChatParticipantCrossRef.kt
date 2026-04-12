@@ -2,6 +2,7 @@ package com.endocrine.chat.database.entities
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.Index
 
 /**
  * Room join-table entity linking [ChatEntity] and [ChatParticipantEntity] in a many-to-many
@@ -29,6 +30,10 @@ import androidx.room.ForeignKey
             childColumns = ["userId"],
             onDelete = ForeignKey.CASCADE
         )
+    ],
+    indices = [
+        Index(value = ["chatId"]),
+        Index(value = ["userId"])
     ]
 )
 data class ChatParticipantCrossRef(

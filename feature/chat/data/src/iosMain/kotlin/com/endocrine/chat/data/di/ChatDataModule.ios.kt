@@ -1,0 +1,8 @@
+package com.endocrine.chat.data.di
+
+import com.endocrine.chat.database.DatabaseFactory
+import org.koin.dsl.module
+
+actual val platformChatDataModule = module {
+    single { DatabaseFactory() }
+}
