@@ -13,6 +13,7 @@ import com.endocrine.core.domain.util.DataError
 import com.endocrine.core.domain.util.EmptyResult
 import com.endocrine.core.domain.util.Result
 import com.endocrine.core.domain.util.asEmptyResult
+import com.endocrine.core.domain.util.map
 import com.endocrine.core.domain.util.onSuccess
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filterNotNull
@@ -69,4 +70,19 @@ class OfflineFirstChatRepository(
             }
             .asEmptyResult()
     }
+
+    override suspend fun createChat(otherUserIds: List<String>): Result<Chat,DataError.Remote> {
+        return chatService
+            .createChat(otherUserIds)
+            .onSuccess { chat ->
+                db.chatDao.upsertChatWithParticipantsAndCrossRefs(
+                    chat = chat.toEntity(),
+                    participants = chat.participants.map { it.toEntity() },
+                    participantDao = db.chatParticipantDao,
+                    crossRefDao = db.chatParticipantsCrossRefDao
+                )
+            }
+    }
+
+    
 }
