@@ -25,11 +25,11 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.backhandler.BackHandler
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.endocrine.chat.domain.models.ChatMessage
-import com.endocrine.chat.domain.models.ChatMessageDeliveryStatus
 import com.endocrine.chat.domain.models.ChatMessageDeliveryStatus.SENT
 import com.endocrine.chat.presentation.chat_detail.components.ChatDetailHeader
 import com.endocrine.chat.presentation.chat_detail.components.MessageBox
@@ -71,9 +71,7 @@ fun ChatDetailRoot(
     }
 
     ChatDetailScreen(
-        state = state,
-        isDetailPresent = isDetailPresent,
-        onAction = viewModel::onAction
+        state = state, isDetailPresent = isDetailPresent, onAction = viewModel::onAction
     )
 }
 
@@ -96,23 +94,18 @@ fun ChatDetailScreen(
         }
     ) { innerPadding ->
         Box(
-            modifier = Modifier
-                .clearFocusOnTap()
-                .padding(innerPadding)
-                .then(
-                    if (configuration.isWideScreen) {
-                        Modifier.padding(horizontal = 8.dp)
-                    } else Modifier
-                )
+            modifier = Modifier.clearFocusOnTap().padding(innerPadding).then(
+                if (configuration.isWideScreen) {
+                    Modifier.padding(horizontal = 8.dp)
+                } else Modifier
+            )
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 DynamicRoundedCornerColumn(
                     isCornersRounded = configuration.isWideScreen,
-                    modifier = Modifier
-                        .weight(1f)
-                        .fillMaxWidth()
+                    modifier = Modifier.weight(1f).fillMaxWidth()
                 ) {
                     ChatHeader {
                         ChatDetailHeader(
@@ -153,14 +146,13 @@ fun ChatDetailScreen(
                         onDeleteMessageClick = { message ->
                             onAction(ChatDetailAction.OnDeleteMessageClick(message))
                         },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .weight(1f)
+                        modifier = Modifier.fillMaxWidth().weight(1f)
                     )
 
                     AnimatedVisibility(
                         visible = !configuration.isWideScreen && state.chatUi != null
                     ) {
+
                         MessageBox(
                             messageTextFieldState = state.messageTextFieldState,
                             isTextInputEnabled = state.canSendMessage,
@@ -168,17 +160,23 @@ fun ChatDetailScreen(
                             onSendClick = {
                                 onAction(ChatDetailAction.OnSendMessageClick)
                             },
-                            modifier = Modifier.fillMaxWidth()
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 8.dp, horizontal = 16.dp)
                         )
                     }
                 }
+            }
 
-                if (configuration.isWideScreen) {
-                    Spacer(modifier = Modifier.height(8.dp))
-                }
+            if (configuration.isWideScreen) {
+                Spacer(modifier = Modifier.height(8.dp))
+            }
 
-                AnimatedVisibility(
-                    visible = configuration.isWideScreen && state.chatUi != null
+            AnimatedVisibility(
+                visible = configuration.isWideScreen && state.chatUi != null
+            ) {
+                DynamicRoundedCornerColumn(
+                    isCornersRounded = configuration.isWideScreen
                 ) {
                     MessageBox(
                         messageTextFieldState = state.messageTextFieldState,
@@ -187,8 +185,7 @@ fun ChatDetailScreen(
                         onSendClick = {
                             onAction(ChatDetailAction.OnSendMessageClick)
                         },
-                        modifier = Modifier
-                            .fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth().padding(8.dp)
                     )
                 }
             }
@@ -203,15 +200,14 @@ private fun DynamicRoundedCornerColumn(
     content: @Composable ColumnScope.() -> Unit
 ) {
     Column(
-        modifier = modifier
-            .shadow(
-                elevation = if (isCornersRounded) 4.dp else 0.dp,
-                shape = if (isCornersRounded) RoundedCornerShape(16.dp) else RectangleShape
-            )
-            .background(
-                color = MaterialTheme.colorScheme.surface,
-                shape = if (isCornersRounded) RoundedCornerShape(16.dp) else RectangleShape
-            )
+        modifier = modifier.shadow(
+            elevation = if (isCornersRounded) 8.dp else 0.dp,
+            shape = if (isCornersRounded) RoundedCornerShape(24.dp) else RectangleShape,
+            spotColor = Color.Black.copy(alpha = 0.2f)
+        ).background(
+            color = MaterialTheme.colorScheme.surface,
+            shape = if (isCornersRounded) RoundedCornerShape(24.dp) else RectangleShape
+        )
     ) {
         content()
     }
@@ -222,10 +218,7 @@ private fun DynamicRoundedCornerColumn(
 private fun ChatDetailEmptyPreview() {
     ChirpTheme {
         ChatDetailScreen(
-            state = ChatDetailState(),
-            isDetailPresent = false,
-            onAction = {}
-        )
+            state = ChatDetailState(), isDetailPresent = false, onAction = {})
     }
 }
 
@@ -238,39 +231,30 @@ private fun ChatDetailMessagesPreview() {
             state = ChatDetailState(
                 messageTextFieldState = rememberTextFieldState(
                     initialText = "This is a new message!"
-                ),
-                canSendMessage = true,
-                chatUi = ChatUi(
-                    id = "1",
-                    localParticipant = ChatParticipantUi(
+                ), canSendMessage = true, chatUi = ChatUi(
+                    id = "1", localParticipant = ChatParticipantUi(
                         id = "1",
                         userName = "Philipp",
                         initials = "PH",
-                    ),
-                    otherParticipants = listOf(
+                    ), otherParticipants = listOf(
                         ChatParticipantUi(
                             id = "2",
                             userName = "Cinderella",
                             initials = "CI",
-                        ),
-                        ChatParticipantUi(
+                        ), ChatParticipantUi(
                             id = "3",
                             userName = "Josh",
                             initials = "JO",
                         )
-                    ),
-                    lastMessage = ChatMessage(
+                    ), lastMessage = ChatMessage(
                         id = "1",
                         chatId = "1",
-                        content = "This is a last chat message that was sent by Philipp " +
-                                "and goes over multiple lines to showcase the ellipsis",
+                        content = "This is a last chat message that was sent by Philipp " + "and goes over multiple lines to showcase the ellipsis",
                         createdAt = Clock.System.now(),
                         senderId = "1",
                         deliveryStatus = SENT
-                    ),
-                    lastMessageSenderUsername = "Philipp"
-                ),
-                messages = (1..20).map {
+                    ), lastMessageSenderUsername = "Philipp"
+                ), messages = (1..20).map {
                     if (it % 2 == 0) {
                         MessageUi.LocalUserMessage(
                             id = Uuid.random().toString(),
@@ -284,17 +268,11 @@ private fun ChatDetailMessagesPreview() {
                             id = Uuid.random().toString(),
                             content = "Hello world!",
                             sender = ChatParticipantUi(
-                                id = Uuid.random().toString(),
-                                userName = "John",
-                                initials = "JO"
+                                id = Uuid.random().toString(), userName = "John", initials = "JO"
                             ),
                             formattedSentTime = UiText.DynamicString("Friday, Aug 20"),
                         )
                     }
-                }
-            ),
-            isDetailPresent = true,
-            onAction = {}
-        )
+                }), isDetailPresent = true, onAction = {})
     }
 }
