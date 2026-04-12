@@ -3,6 +3,7 @@ package com.endocrine.chat.database.entities
 import androidx.room.Embedded
 import androidx.room.Junction
 import androidx.room.Relation
+import com.endocrine.chat.database.view.LastMessageView
 
 /**
  * Room relation result class combining a [ChatEntity] with its list of [ChatParticipantEntity]
@@ -21,7 +22,13 @@ data class ChatWithParticipants(
         entityColumn = "userId",
         associateBy = Junction(ChatParticipantCrossRef::class)
     )
-    val participants: List<ChatParticipantEntity>
+    val participants: List<ChatParticipantEntity>,
+    @Relation(
+        parentColumn = "chatId",
+        entityColumn = "chatId",
+        entity = LastMessageView::class
+    )
+    val lastMessage: LastMessageView?
 )
 
 /**
