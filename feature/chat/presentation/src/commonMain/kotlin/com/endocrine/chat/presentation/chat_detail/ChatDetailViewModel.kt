@@ -1,18 +1,65 @@
+@file:OptIn(ExperimentalCoroutinesApi::class)
+
 package com.endocrine.chat.presentation.chat_detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.endocrine.chat.domain.chat.ChatRepository
+import com.endocrine.chat.presentation.mappers.toUi
+import com.endocrine.core.domain.auth.SessionStorage
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
-class ChatDetailViewModel : ViewModel() {
+class ChatDetailViewModel(
+    private val chatRepository: ChatRepository,
+    private val sessionStorage: SessionStorage
+) : ViewModel() {
+
+    private val _chatId = MutableStateFlow<String?>(null)
+
+    private val chatInfoFlow = _chatId.flatMapLatest { chatId ->
+        if (chatId != null) {
+            chatRepository.getChatInfoById(chatId)
+        } else {
+            emptyFlow()
+        }
+    }
+
+    private val _state = MutableStateFlow(ChatDetailState())
+
+    private val stateWithMessages = combine(
+        _state,
+        chatInfoFlow,
+        sessionStorage.observeAuthInfo(),
+    ) { currentState, chatInfo, authInfo ->
+        if (authInfo == null) {
+            return@combine ChatDetailState()
+        }
+
+        currentState.copy(
+            chatUi = chatInfo.chat.toUi(authInfo.user.id)
+        )
+    }
 
     private var hasLoadedInitialData = false
 
-    private val _state = MutableStateFlow(ChatDetailState())
-    val state = _state
+
+    val state = _chatId
+        .flatMapLatest { chatId ->
+            if (chatId != null) {
+                stateWithMessages
+            } else {
+                _state
+            }
+        }
         .onStart {
             if (!hasLoadedInitialData) {
                 /** Load initial data here **/
@@ -27,8 +74,17 @@ class ChatDetailViewModel : ViewModel() {
 
     fun onAction(action: ChatDetailAction) {
         when (action) {
-            else -> TODO("Handle actions")
+            is ChatDetailAction.OnSelectChat -> switchChat(action.chatId)
+            else -> Unit
         }
     }
 
+    private fun switchChat(chatId: String?) {
+        _chatId.update { chatId }
+        viewModelScope.launch {
+            chatId?.let {
+                chatRepository.fetchChatById(chatId)
+            }
+        }
+    }
 }

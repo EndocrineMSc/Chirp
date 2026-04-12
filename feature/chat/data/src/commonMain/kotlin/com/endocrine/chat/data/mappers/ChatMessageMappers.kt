@@ -40,6 +40,17 @@ fun ChatMessage.toEntity(): ChatMessageEntity {
     )
 }
 
+fun ChatMessageEntity.toDomain(): ChatMessage {
+    return ChatMessage(
+        id = messageId,
+        chatId = chatId,
+        content = content,
+        createdAt = Instant.fromEpochMilliseconds(timestamp),
+        senderId = senderId,
+        deliveryStatus = ChatMessageDeliveryStatus.valueOf(deliveryStatus),
+    )
+}
+
 fun ChatMessage.toLastMessageView(): LastMessageView {
     return LastMessageView(
         messageId = id,
