@@ -5,6 +5,7 @@ import com.endocrine.chat.data.dto.requests.CreateChatRequest
 import com.endocrine.chat.data.mappers.toDomain
 import com.endocrine.chat.domain.chat.ChatService
 import com.endocrine.chat.domain.models.Chat
+import com.endocrine.core.data.networking.get
 import com.endocrine.core.data.networking.post
 import com.endocrine.core.domain.util.DataError
 import com.endocrine.core.domain.util.Result
@@ -19,5 +20,13 @@ class KtorChatService(
             route = "/chat",
             body = CreateChatRequest(otherUserIds)
         ).map { it.toDomain() }
+    }
+
+    override suspend fun getChats(): Result<List<Chat>, DataError.Remote> {
+        return httpClient.get<List<ChatDto>>(
+            route = "/chat"
+        ).map { chatDtos ->
+            chatDtos.map { it.toDomain() }
+        }
     }
 }

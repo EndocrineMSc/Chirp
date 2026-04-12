@@ -29,6 +29,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.endocrine.chat.domain.models.ChatMessage
+import com.endocrine.chat.domain.models.ChatMessageDeliveryStatus
 import com.endocrine.chat.domain.models.ChatMessageDeliveryStatus.SENT
 import com.endocrine.chat.presentation.chat_detail.components.ChatDetailHeader
 import com.endocrine.chat.presentation.chat_detail.components.MessageBox
@@ -264,7 +265,8 @@ private fun ChatDetailMessagesPreview() {
                         content = "This is a last chat message that was sent by Philipp " +
                                 "and goes over multiple lines to showcase the ellipsis",
                         createdAt = Clock.System.now(),
-                        senderId = "1"
+                        senderId = "1",
+                        deliveryStatus = SENT
                     ),
                     lastMessageSenderUsername = "Philipp"
                 ),

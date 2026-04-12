@@ -11,12 +11,12 @@ import androidx.room.PrimaryKey
  *
  * @property userId Unique identifier for this user.
  * @property userName Display name of the user.
- * @property profilPictureUrl URL of the user's profile picture.
+ * @property profilePictureUrl URL of the user's profile picture.
  */
 @Entity
 data class ChatParticipantEntity(
     @PrimaryKey
     val userId: String,
     val userName: String,
-    val profilPictureUrl: String,
+    val profilePictureUrl: String?,
 )

@@ -28,6 +28,7 @@ import chirp.feature.chat.presentation.generated.resources.Res
 import chirp.feature.chat.presentation.generated.resources.group_chat
 import chirp.feature.chat.presentation.generated.resources.you
 import com.endocrine.chat.domain.models.ChatMessage
+import com.endocrine.chat.domain.models.ChatMessageDeliveryStatus
 import com.endocrine.chat.presentation.components.ChatItemHeaderRow
 import com.endocrine.chat.presentation.model.ChatUi
 import com.endocrine.core.designsystem.components.avatar.ChatParticipantUi
@@ -132,7 +133,8 @@ fun ChatListItemUiPreview() {
                     content = "This is a last chat message that was sent by Philipp " +
                             "and goes over multiple lines to showcase the ellipsis",
                     createdAt = Clock.System.now(),
-                    senderId = "1"
+                    senderId = "1",
+                    deliveryStatus = ChatMessageDeliveryStatus.SENT
                 ),
                 lastMessageSenderUsername = "Philipp"
             )
