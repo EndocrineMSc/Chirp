@@ -5,10 +5,13 @@ import com.endocrine.chat.data.dto.requests.CreateChatRequest
 import com.endocrine.chat.data.mappers.toDomain
 import com.endocrine.chat.domain.chat.ChatService
 import com.endocrine.chat.domain.models.Chat
+import com.endocrine.core.data.networking.delete
 import com.endocrine.core.data.networking.get
 import com.endocrine.core.data.networking.post
 import com.endocrine.core.domain.util.DataError
+import com.endocrine.core.domain.util.EmptyResult
 import com.endocrine.core.domain.util.Result
+import com.endocrine.core.domain.util.asEmptyResult
 import com.endocrine.core.domain.util.map
 import io.ktor.client.HttpClient
 
@@ -34,5 +37,11 @@ class KtorChatService(
         return httpClient.get<ChatDto>(
             route = "/chat/$chatId"
         ).map { it.toDomain() }
+    }
+
+    override suspend fun leaveChat(chatId: String): EmptyResult<DataError.Remote> {
+        return httpClient.delete<Unit>(
+            route = "/chat/$chatId/leave"
+        ).asEmptyResult()
     }
 }
